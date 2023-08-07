@@ -10,7 +10,12 @@ namespace API.Entities
     {
         // [Key]P
         public int Id{set;get;}
+    //    [Required]  if dont want to take null values you can make it required filed and add mirgation
         public string UserName{set;get;}
+
+        public byte[] PasswordHash{set;get;}
+
+        public byte[] PasswordSalt{set;get;}    
     
     }
 }
