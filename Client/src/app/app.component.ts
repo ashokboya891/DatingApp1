@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+
 import { Component ,OnInit} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-
+import { AccoutnService } from './_services/accoutn.service';
+import { User } from "./_models/User";
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,17 +10,28 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AppComponent implements OnInit{
   title = 'App';
-  users:any; 
 
-  constructor(private http:HttpClient)
+
+  constructor(private accountService:AccoutnService)
   {
      
   }
   ngOnInit(): void {
-      this.http.get('https://localhost:5001/api/users').subscribe({
-        next:Response=>this.users=Response,
-        error:error=>console.log(error),
-        complete:()=>console.log("request completed....")
-      })
+
+  this.setCurrentUser();
+  }
+
+
+
+  setCurrentUser()
+  {
+    // const user:User=JSON.parse(localStorage.getItem('user'));
+
+    const userString=localStorage.getItem('user');
+
+    if(!userString) return ;
+    const user:User=JSON.parse(userString);
+    this.accountService.setCurrentUser(user);
+   
   }
 }
