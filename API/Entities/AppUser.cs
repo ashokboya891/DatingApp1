@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Extensions;
 
 namespace API.Entities
 {
@@ -15,7 +16,31 @@ namespace API.Entities
 
         public byte[] PasswordHash{set;get;}
 
-        public byte[] PasswordSalt{set;get;}    
-    
+        public byte[] PasswordSalt{set;get;}  
+
+        public DateOnly DateOfBirth{set;get;}
+
+        public string KnownAs  {set;get;}
+
+        public DateTime Created{set;get;}=DateTime.UtcNow;
+
+        public DateTime LastActive {set;get;}  =DateTime.UtcNow;
+
+        public string Gender{set;get;}
+        public string Introduction{set;get;}
+        public string LookingFor{set;get;}
+         public string Interests{set;get;}
+         public string City{set;get;}
+         public string Country{set;get;}
+
+        public List<Photo> Photos{set;get;}=new();  //=new list<Photo> also usefull here
+
+        // public int Getage()
+        // {
+        //     return DateOfBirth.CalculateAge();
+        // }
+         
     }
+
+   
 }
