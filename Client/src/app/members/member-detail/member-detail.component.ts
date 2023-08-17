@@ -5,6 +5,8 @@ import { MembersService } from 'src/app/_services/members.service';
 import {  CommonModule} from "@angular/common";
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
+import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { Gallery } from 'ng-gallery';
 @Component({
   selector: 'app-member-detail',
   standalone:true,
@@ -15,9 +17,11 @@ import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 export class MemberDetailComponent  implements OnInit{
   images:GalleryItem[]=[];
 member:Member|undefined;
+
   ngOnInit(): void {
     this.loadMember();
-      
+   
+     
   }
   constructor(private memberService:MembersService,private route:ActivatedRoute) {
     
@@ -35,11 +39,13 @@ member:Member|undefined;
   getImages()
   {
     if(!this.member)return;
+    // const imageUrls=[];
+    
     for(const photo of this.member?.photos)
     {
         this.images.push(new ImageItem({src:photo.url,thumb:photo.url}))
-        // this.images.push(new ImageItem({src:photo.url,thumb:photo.url})),
-        // this.images.push(new ImageItem({src:photo.url,thumb:photo.url}))
+        this.images.push(new ImageItem({src:photo.url,thumb:photo.url})),
+        this.images.push(new ImageItem({src:photo.url,thumb:photo.url}))
     }
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
 import { ReturnStatement } from '@angular/compiler';
+import { map, of } from 'rxjs';
 
 // const HttpOptions={
 //   headers:new HttpHeaders({
@@ -16,7 +17,7 @@ import { ReturnStatement } from '@angular/compiler';
 
 export class MembersService {
   baseUrl=environment.apiUrl;
-
+  members:Member[]=[];
   constructor(private http:HttpClient)
    {
 
@@ -24,12 +25,30 @@ export class MembersService {
 
     getMembers()
     {
-      return this.http.get<Member[]>(this.baseUrl+ 'users');
+      if(this.members.length>0)return of(this.members);
+      return this.http.get<Member[]>(this.baseUrl+ 'users').pipe(
+          map(members=>{
+            this.members=members;
+            return members;
+          })
+      )
     }
     getMember(username:string)
     {
+      const members=this.members.find(x=>x.userName===username);
+      if(members)return of(members);
       return this.http.get<Member>(this.baseUrl+ 'users/'+username);
     }
+    updateMember(member:Member)
+    {
+        return this.http.put(this.baseUrl+'users',member).pipe(
+          map(()=>{
+            const index=this.members.indexOf(member);
+            this.members[index]={...this.members[index],...member}
+          })
+        )
+    }
+
     // getHttpOptions()
     // {
     //   const userString=localStorage.getItem('user');
