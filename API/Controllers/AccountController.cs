@@ -60,7 +60,8 @@ namespace API.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDTO logindto)
         {
-                var user=await _context.Users.SingleOrDefaultAsync(x=>x.UserName==logindto.UserName);
+                var user=await _context.Users.Include(p=>p.Photos).
+                SingleOrDefaultAsync(x=>x.UserName==logindto.UserName);
                 if(user==null) return Unauthorized("not valid username");
 
                 using var hmac=new HMACSHA512(user.PasswordSalt);
@@ -74,7 +75,8 @@ namespace API.Controllers
                  return new UserDto
                 {
                     Username=user.UserName,
-                    Token=_tokenService.createToken(user)
+                    Token=_tokenService.createToken(user),
+                    PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url
                 }; 
         }
 
