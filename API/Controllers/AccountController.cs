@@ -9,6 +9,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +25,11 @@ namespace API.Controllers
         private readonly DataContext _context;
         private readonly ITokenService _tokenService;
         private  readonly IMapper _mapper;  
-           public AccountController(DataContext context,ITokenService tokenService,IMapper mapper)
+        public AccountController(DataContext context,ITokenService tokenService,IMapper mapper)
      {
-            _mapper = mapper;
-            _context=context;   
-            _tokenService=tokenService;
+        _mapper = mapper;
+        _context=context;   
+        _tokenService=tokenService;
      }
 
     [HttpPost("Register")] //post:api/account/register?username=ash&password=dev
@@ -54,14 +55,15 @@ namespace API.Controllers
                 {
                     Username=user.UserName,
                     Token=_tokenService.createToken(user),
-                    KnownAs=user.KnownAs
+                    KnownAs=user.KnownAs,
+                    Gender=user.Gender
                 };
         }
         private async Task<bool> UserExists(string username)
         {
          return await _context.Users.AnyAsync(x=>x.UserName==username.ToLower());  
         }
-
+        
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDTO logindto)
         {
@@ -82,7 +84,8 @@ namespace API.Controllers
                     Username=user.UserName,
                     Token=_tokenService.createToken(user),
                     PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
-                    KnownAs=user.KnownAs
+                    KnownAs=user.KnownAs,
+                    Gender=user.Gender
                 }; 
         }
 
