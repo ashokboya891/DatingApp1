@@ -6,17 +6,17 @@ namespace API.Extensions
 {
     public  static class ClaimsPrincipalExtension
     {
-        public static string GetUsername(this ClaimsPrincipal user)
+        public static string GetUsername(this ClaimsPrincipal User)
         {
             //   return  user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-             return  user.FindFirst(ClaimTypes.Name)?.Value;
+             return  User.FindFirst(ClaimTypes.Name)?.Value;
              
         }
 
-          public static string GetUserId(this ClaimsPrincipal user)
+          public static int GetUserId(this ClaimsPrincipal User)
         {
             //   return  user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-             return  user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+             return int .Parse( User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
              
         }
         

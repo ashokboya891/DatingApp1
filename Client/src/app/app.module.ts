@@ -28,6 +28,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { DatePickerComponent } from './_forms/date-picker/date-picker.component';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+// import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   declarations: [
@@ -56,10 +58,11 @@ import { DatePickerComponent } from './_forms/date-picker/date-picker.component'
     BrowserAnimationsModule,FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    ButtonsModule.forRoot()
   ],
   exports:[
-    
+    ButtonsModule
   ],
   providers: [
     {

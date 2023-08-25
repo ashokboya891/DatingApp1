@@ -1,5 +1,6 @@
 
 using System.Runtime.CompilerServices;
+using API.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Helpers
@@ -32,6 +33,9 @@ namespace API.Helpers
                     
         }
 
-
+        internal static Task<PagedList<LikeDto>> CreateAsync(IQueryable<LikeDto> likedUsers, object pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

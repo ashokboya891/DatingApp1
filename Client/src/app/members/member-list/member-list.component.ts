@@ -40,10 +40,24 @@ export class MemberListComponent implements OnInit{
     //  this.members$=this.membersService.getMembers();
     this.loadmembers();
   }
+  // applyFilter()
+  // {
+  //  if(this.userParams)
+  //  {
+  //       if(this.pagination)
+  //       {
+  //         this.userParams.pageNumber=1;
+
+  //       }
+  //       this.userParams.pageNumber=1;
+  //       this.membersService.setUserParams(this.userParams);
+  //       this.loadmembers();
+  //  }
+  // }
   loadmembers()
   {
-    // console.log(this.genderList.values);
-    
+
+   
     if(this.userParams)
     {
       this.membersService.setUserParams(this.userParams);
@@ -62,13 +76,26 @@ export class MemberListComponent implements OnInit{
   {
     this.userParams=this.membersService.resetUserParams();
     this.loadmembers();
-    // if(this.user)
-    // {
-    // }
+ 
   }
+  // apply()
+  // {
+  //   // if(this.userParams)
+  //   // {
+  //   //   if(this.pagination)
+  //   //   {
+  //   //     this.pagination.currentPage=1;
+
+  //   //   }
+  //     this.userParams.pageNumber=1;
+  //     this.membersService.setUserParams(this.userParams);
+  //     this.loadmembers();
+  //   // }
+  // }
+
   pageChanged(event:any)
   {
-    if(this.userParams && this.userParams?.pageNumber!=event.page)
+    if(this.userParams &&  this.userParams?.pageNumber!==event.page)
     {
 
       this.userParams.pageNumber=event.page;
