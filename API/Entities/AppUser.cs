@@ -4,19 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Entities
 {
-    public class AppUser
+    public class AppUser:IdentityUser<int>
     {
         // [Key]P
-        public int Id{set;get;}
-    //    [Required]  if dont want to take null values you can make it required filed and add mirgation
-        public string UserName{set;get;}
+    //     public int Id{set;get;}
+    // //    [Required]  if dont want to take null values you can make it required filed and add mirgation
+    //     public string UserName{set;get;}
 
-        public byte[] PasswordHash{set;get;}
+    //     public byte[] PasswordHash{set;get;}
 
-        public byte[] PasswordSalt{set;get;}  
+    //     public byte[] PasswordSalt{set;get;}  
 
         public DateOnly DateOfBirth{set;get;}
 
@@ -24,7 +25,7 @@ namespace API.Entities
 
         public DateTime Created{set;get;}=DateTime.UtcNow;
 
-        public DateTime LastActive {set;get;}  =DateTime.UtcNow;
+        public DateTime LastActive {set;get;}  =new DateTime();
 
         public string Gender{set;get;}
         public string Introduction{set;get;}
@@ -42,7 +43,7 @@ namespace API.Entities
 
         public List<Message> MessagesReceived{set;get;}
 
-
+    public ICollection<AppUserRole> UserRoles{set;get;} 
 
 
         // public int Getage()
