@@ -25,6 +25,8 @@ namespace API.Data
             var options=new JsonSerializerOptions{PropertyNameCaseInsensitive=true};
 
             var users=JsonSerializer.Deserialize<List<AppUser>>(userData);
+
+            
             var roles=new List<AppRole>
             {
                 new AppRole{Name="Member"},

@@ -76,13 +76,36 @@ namespace API.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDTO logindto)
         {
-                var user=await _userManager.Users.Include(p=>p.Photos).
-                SingleOrDefaultAsync(x=>x.UserName==logindto.UserName);
+             var user = await _userManager.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x => x.UserName == logindto.UserName);
+
+        if (user == null) return Unauthorized("Invalid username");
+
+        var result = await _userManager.CheckPasswordAsync(user, logindto.Password);
+
+        if (!result) return Unauthorized();
+
+        return new UserDto
+        {
+            Username = user.UserName,
+            Token = await _tokenService.createToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+            KnownAs = user.KnownAs,
+            Gender = user.Gender
+        };
+               
+        }
+
+    }
+}
+ // var user=await _userManager.Users.Include(p=>p.Photos).
+                // SingleOrDefaultAsync(x=>x.UserName==logindto.UserName);
                 
-                if(user==null) return Unauthorized("not valid username");
+                // if(user==null) return Unauthorized("not valid username");
                 
-                var result=await _userManager.CheckPasswordAsync(user,logindto.Password);
-                if(!result) return Unauthorized("invalid password");
+                // var result=await _userManager.CheckPasswordAsync(user,logindto.Password);
+                // if(!result) return Unauthorized("invalid password");
                 // using var hmac=new HMACSHA512(user.PasswordSalt);
 
                 // var computedHash=hmac.ComputeHash(Encoding.UTF8.GetBytes(logindto.Password)) ; 
@@ -91,15 +114,11 @@ namespace API.Controllers
                 // {
                 //     if(computedHash[i]!=user.PasswordHash[i]) return Unauthorized("invalid password");
                 // }
-                 return new UserDto
-                {
-                    Username=user.UserName,
-                    Token=await _tokenService.createToken(user),
-                    PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
-                    KnownAs=user.KnownAs,
-                    Gender=user.Gender
-                }; 
-        }
-
-    }
-}
+                //  return new UserDto
+                // {
+                //     Username=user.UserName,
+                //     Token=await _tokenService.createToken(user),
+                //     PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
+                //     KnownAs=user.KnownAs,
+                //     Gender=user.Gender
+                // }; 
