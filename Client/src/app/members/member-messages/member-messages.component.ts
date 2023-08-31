@@ -15,27 +15,26 @@ import { MessageService } from 'src/app/_services/message.service';
 export class MemberMessagesComponent implements OnInit {
   @ViewChild('messageForm') messageForm?:NgForm;
   @Input() username?:string;
-  @Input() messages:Message[]=[];
+  // @Input() messages:Message[]=[];  after adding messages hub we are commenting this arrya message collection
   messageContent='';
   // messages:Message[]=[];
   ngOnInit(): void {
     // this.sendMessage();
       // this.loadMessages();
   }
-  constructor(private messageService:MessageService) {
+  constructor(public messageService:MessageService) {
     
   }
   sendMessage()
   {
     if(!this.username) return;
-    this.messageService.sendMessage(this.username,this.messageContent).subscribe({
-      next:message=>{
-        this.messages.push(message);
+    this.messageService.sendMessage(this.username,this.messageContent).then(()=>{
         this.messageForm.reset();
-      }
     })
-   
-
+      
+        //after updagting code in sendmesage method in message service below lines commented
+        // this.messages.push(message);
+        // this.messageForm.reset();
   }
 
   // loadMessages()

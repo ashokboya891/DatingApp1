@@ -5,6 +5,12 @@
             <img src="{{member.photoUrl || './assets/user.png'}}" class="card-img-top img-thumbnail"
             alt="{{member.knownAs}}">
             <div class="card-body">
+                <div class="mb-2" *ngIf="(presenceService.onlineUsers$ |async)?.includes(member.userName)">
+                    <i class="class fa fa-user-circle text-success">
+                    </i>
+                    Online Now
+                     
+                </div>
                 <strong>Name:</strong>
                 <p>{{member.userName}}</p>
             </div>
@@ -18,7 +24,7 @@
             </div>
             <div class="card-body">
                 <strong>lastActive:</strong>
-                <p>{{member.lastActive+'Z'| timeago}}</p>
+                <p>{{member.lastActive| timeago}}</p>
             </div>
             <div class="card-body">
                 <strong>started:</strong>
@@ -51,7 +57,8 @@
                 <gallery *ngIf="photoTab.active" [items]="images" class="gallery"></gallery>
             </tab>
             <tab heading="Messages" (selectTab)="onTabActivated($event)">
-                <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages>
+                <app-member-messages [username]="member.userName" ></app-member-messages>
+                <!-- <app-member-messages [username]="member.userName" [messages]="messages"></app-member-messages> -->
                 <!-- <app-member-messages [username]="member.username></app-member-messages> -->
                 <!-- <h4>Interests</h4><p>Messages will go here</p> -->
             </tab>
