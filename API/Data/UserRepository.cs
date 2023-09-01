@@ -69,16 +69,21 @@ namespace API.Data
             .Include(x => x.Photos)
             .SingleOrDefaultAsync(x => x.UserName == username);      
         }
+//below new method added in opt2 244
+        public async Task<string> GetUserGender(string username)
+        {
+            return await _Context.Users.Where(x=>x.UserName==username).Select(x=>x.Gender).FirstOrDefaultAsync();
+        }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
           return await _Context.Users.Include(x=>x.Photos).ToListAsync();
         }
 
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _Context.SaveChangesAsync()>0;
-        }
+        // public async Task<bool> SaveAllAsync()
+        // {
+        //     return await _Context.SaveChangesAsync()>0;
+        // }
 
         public void Update(AppUser user)
         {

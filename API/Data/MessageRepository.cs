@@ -58,9 +58,24 @@ namespace API.Data
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName,string recipienUserName)
         {
-          var messages=await _context.Messages
-              .Include(u=>u.Sender).ThenInclude(u=>u.Photos)
-              .Include(u=>u.Recipient).ThenInclude(p=>p.Photos)
+
+            //this below also works it collected from comment section
+            // var messages = await _context.Messages
+            //     .Where(m => m.Recipient.UserName == currentUserName && m.RecipientDeleted == false
+            //             && m.Sender.UserName == recipienUserName
+            //             || m.Recipient.UserName == recipienUserName
+            //             && m.Sender.UserName == currentUserName && m.SenderDeleted == false
+            //     )
+            //     .MarkUnreadAsRead(currentUserName)
+            //     .OrderBy(m => m.MessageSent)
+            //     .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
+            //     .ToListAsync();
+ 
+            // return messages;
+          var query= _context.Messages
+          //commented after complenting unitofwork 243
+            //   .Include(u=>u.Sender).ThenInclude(u=>u.Photos)
+            //   .Include(u=>u.Recipient).ThenInclude(p=>p.Photos)
               .Where(
                 m=>m.RecipientUsername==currentUserName  && m.RecipientDeleted==false 
                 && m.SenderUsername==recipienUserName ||
@@ -68,8 +83,10 @@ namespace API.Data
                 && m.SenderUsername==currentUserName
               )
               .OrderBy(messages=>messages.MessageSent)
-              .ToListAsync();
-              var unreadMessages=messages.Where(m=>m.DateRead==null
+              .AsQueryable();
+            //   .ToListAsync();  //commented after complenting unitofwork 243  by converintg tolist to asqurable above also before =contex and
+            // query we using under this line code
+              var unreadMessages=query.Where(m=>m.DateRead==null
                && m.RecipientUsername==currentUserName).ToList();
                if(unreadMessages.Any())
                {
@@ -77,16 +94,19 @@ namespace API.Data
                 {
                         message.DateRead=DateTime.UtcNow;
                 }
-                await _context.SaveChangesAsync();
+                // await _context.SaveChangesAsync();  it removing after unitofwork
                }
-               return _mapper.Map<IEnumerable<MessageDto>>(messages);
+
+
+            //    return _mapper.Map<IEnumerable<MessageDto>>(messages);  after adding query changing this line to below line
+            return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
         }
 
-        public  async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync()>0;
-        }
+        // public  async Task<bool> SaveAllAsync()
+        // {
+        //     return await _context.SaveChangesAsync()>0;
+        // }
 
         public void AddGroup(Group group)
         {

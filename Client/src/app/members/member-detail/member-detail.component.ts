@@ -42,9 +42,7 @@ user?:User;
         params['tab'] &&  this.selectTab(params['tab'])
       }
     })
-    this.getImages();
-
-     
+    this.getImages();  
   }
   ngOnDestroy(): void {
     this.messageService.stopHubConnection();

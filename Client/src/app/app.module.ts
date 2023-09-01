@@ -36,6 +36,7 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStartegy } from './_services/customRouteStrategy';
+import { ConfirmDailogComponent } from './modals/confirm-dailog/confirm-dailog.component';
 // import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
@@ -61,6 +62,7 @@ import { CustomRouteReuseStartegy } from './_services/customRouteStrategy';
     UserManagementComponent,
     PhotoManagementComponent,
     RolesModalComponent,
+    ConfirmDailogComponent,
     
     
   ],

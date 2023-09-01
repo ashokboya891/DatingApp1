@@ -18,15 +18,18 @@ namespace API.Extensions
 
             services.AddScoped<ITokenService,TokenService>();
            services.AddCors();
-           services.AddScoped<IUserRepository,UserRepository>();
            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
            services.AddScoped<IPhotoService,PhotoService>();
             services.AddScoped<LogUserActivity>();
-            services.AddScoped<ILikesRespository,LikesRepository>();
-            services.AddScoped<IMessageRepository,MessageRepository>();
+
+        //after adding unitofwork this 3 commented
+            // services.AddScoped<IUserRepository,UserRepository>();
+            // services.AddScoped<ILikesRespository,LikesRepository>();
+            // services.AddScoped<IMessageRepository,MessageRepository>();
             services.AddSignalR();
             services.AddSingleton<PresenceTracker>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
            return services;
 
         }
