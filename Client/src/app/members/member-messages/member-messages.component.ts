@@ -19,6 +19,7 @@ export class MemberMessagesComponent implements OnInit {
   @Input() username?:string;
   // @Input() messages:Message[]=[];  after adding messages hub we are commenting this arrya message collection
   messageContent='';
+  loading=false;
   // messages:Message[]=[];
   ngOnInit(): void {
     // this.sendMessage();
@@ -30,9 +31,10 @@ export class MemberMessagesComponent implements OnInit {
   sendMessage()
   {
     if(!this.username) return;
+    this.loading=true;
     this.messageService.sendMessage(this.username,this.messageContent).then(()=>{
         this.messageForm.reset();
-    })
+    }).finally(()=>this.loading=false);
       
         //after updagting code in sendmesage method in message service below lines commented
         // this.messages.push(message);

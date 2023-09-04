@@ -13,8 +13,9 @@ namespace API.Extensions
         {
 
             services.AddDbContext<DataContext>(opt=>{
+                //use sqllite removed after postgress added
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
-            }    );
+            });
 
             services.AddScoped<ITokenService,TokenService>();
            services.AddCors();

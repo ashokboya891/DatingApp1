@@ -13,6 +13,12 @@ namespace API.Data
 {
     public class Seed
     {
+
+        // public static async Task ClearConnections(DataContext  context)
+        // {
+        //     context.connections.RemoveRange(context.connections);
+        //     await context.SaveChangesAsync();
+        // }
         public static async Task SeedUsers(UserManager<AppUser> userManager,
         RoleManager<AppRole> roleManager)
         {
@@ -49,6 +55,9 @@ namespace API.Data
                 // user.PasswordHash=hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
                 // user.PasswordSalt=hmac.Key;
 
+                //this two lines added after adding porstgress two errors of utc 255
+                // user.Created=DateTime.SpecifyKind(user.Created, DateTimeKind.Utc);
+                // user.LastActive=DateTime.SpecifyKind(user.LastActive,DateTimeKind.Utc);
                await userManager.CreateAsync(user,"Pa$$w0rd");
                await userManager.AddToRoleAsync(user,"Member");
             }

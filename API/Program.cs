@@ -20,16 +20,19 @@ var app = builder.Build();
 
 
 app.UseMiddleware<ExeceptionMiddleware>();
-app.UseAuthentication();
 app.UseCors(builder=>builder.AllowAnyHeader().AllowAnyMethod()
 .AllowCredentials()
 .WithOrigins("https://localhost:4200"));
-
-
+app.UseAuthentication();
 app.UseAuthorization();
+
+// app.UseDefaultFiles();
+// app.UseStaticFiles();
+
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+// app.MapFallbackToController("Index","Fallback");
 
 using var scope=app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -39,7 +42,8 @@ try{
     var roleManager=services.GetRequiredService<RoleManager<AppRole>>();
 
     await context.Database.MigrateAsync();
-    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+    // await Seed.ClearConnections(context);
+    await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");  //after adding migration  problem will raise so added new method in seed.cs so it got commented
     // context.connections.RemoveRange(context.connections);
     await Seed.SeedUsers(userManager,roleManager);
 
