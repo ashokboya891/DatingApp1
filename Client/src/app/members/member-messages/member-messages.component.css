@@ -18,3 +18,36 @@
   max-width: 60%;
   word-wrap: break-word;
 }
+.chat-container {
+  max-height: 600px;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.chat-body {
+  height: 500px;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  word-wrap: break-word;
+  border-radius: 20px;
+}
+
+.sent-msg {
+  background-color: #aeadac;
+  color: white;
+  border-top-right-radius: 0;
+}
+
+.received-msg {
+  background-color: #e9ecef;
+  color: black;
+  border-top-left-radius: 0;
+}
+
+.typing-status {
+  font-style: italic;
+}
