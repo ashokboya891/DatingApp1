@@ -12,5 +12,7 @@ namespace API.DTOs
         public string Url { get; set; }
 
         public bool IsMain{set;get;}
+        public bool IsApproved { get; set; }
+
     }
 }

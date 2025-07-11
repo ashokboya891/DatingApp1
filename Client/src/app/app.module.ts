@@ -38,7 +38,6 @@ import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStartegy } from './_services/customRouteStrategy';
 import { ConfirmDailogComponent } from './modals/confirm-dailog/confirm-dailog.component';
 // import { ButtonsModule } from 'ngx-bootstrap/buttons';
-
 @NgModule({
   declarations: [
     AppComponent,

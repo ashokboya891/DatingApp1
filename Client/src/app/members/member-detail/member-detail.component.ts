@@ -18,11 +18,19 @@ import { take } from 'rxjs';
 
 @Component({
   selector: 'app-member-detail',
-  standalone:true,
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css'],
-  imports: [CommonModule,TabsModule,GalleryModule,TimeagoModule,MemberMessagesComponent]
+  standalone: true,
+  imports: [
+    CommonModule,
+    TabsModule,
+    GalleryModule,
+    TimeagoModule,
+    MemberMessagesComponent
+  ]
+  
 })
+
 
 export class MemberDetailComponent  implements OnInit,OnDestroy{
   @ViewChild('memberTabs',{static:true})memberTabs?:TabsetComponent;

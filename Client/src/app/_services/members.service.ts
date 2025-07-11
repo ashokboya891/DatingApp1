@@ -58,6 +58,7 @@ export class MembersService {
       // console.log(Object.values(userParams).join('-'));
 
       const response=this.memberCache.get(Object.values(userParams).join('-'));
+      console.log(response);
       if(response)return of(response);
       let params =getPaginationHeader(userParams.pageNumber,userParams.pageSize);
 

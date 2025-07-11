@@ -25,7 +25,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
   
     NgxSpinnerModule.forRoot({
-     type : 'fire'
+     type : 'ball-climbing-dot'
     }),
     BsDatepickerModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -45,8 +45,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     TimeagoModule,
     ModalModule
  
-
-
   ]
 })
 export class SharedModule { }

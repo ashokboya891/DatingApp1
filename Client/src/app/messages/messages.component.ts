@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
 import { MessageService } from '../_services/message.service';
@@ -9,6 +9,7 @@ import { MessageService } from '../_services/message.service';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent  implements OnInit{
+
   messages :Message[]|undefined;
   pagination?:Pagination;
   pageNumber=1;
@@ -19,6 +20,7 @@ export class MessagesComponent  implements OnInit{
   {
 
   }
+ 
   ngOnInit(): void {
       this.loadMessages();
   }

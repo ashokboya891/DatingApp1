@@ -14,3 +14,7 @@
 .rounded-circle{
     max-height: 30px;
 }
+.chat-bubble {
+  max-width: 60%;
+  word-wrap: break-word;
+}

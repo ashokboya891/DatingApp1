@@ -15,6 +15,8 @@ namespace API.Extensions
             services.AddDbContext<DataContext>(opt=>{
                 //use sqllite removed after postgress added
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+               // opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
+
             });
 
             services.AddScoped<ITokenService,TokenService>();
@@ -31,7 +33,9 @@ namespace API.Extensions
             services.AddSignalR();
             services.AddSingleton<PresenceTracker>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
-           return services;
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
+
+            return services;
 
         }
     }

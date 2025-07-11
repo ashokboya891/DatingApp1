@@ -11,6 +11,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
 
   return accountService.currentUser$.pipe(
     map(user=>{
+      // debugger
       if(!user)return false;
       if(user.roles.includes('Admin')|| user.roles.includes('Moderator'))
       {

@@ -1,4 +1,4 @@
-
+﻿
 
 using System;
 using API.Extensions;
@@ -42,6 +42,20 @@ namespace API.SignalR
 
             // await Clients.All.SendAsync("GetOnlineUsers",currentUser);
 
+        }
+        // ✅ NEW FUNCTION FOR "USER IS TYPING"
+        public async Task SendTypingStatus(string recipientUsername)
+        {
+            var sender = Context.User.GetUsername();
+            var connections = await _tracker.GetConnectionsForUser(recipientUsername);
+
+            if (connections != null)
+            {
+                foreach (var connectionId in connections)
+                {
+                    await Clients.Client(connectionId).SendAsync("UserTyping", sender);
+                }
+            }
         }
 
     }

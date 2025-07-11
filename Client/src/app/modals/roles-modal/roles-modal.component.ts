@@ -14,6 +14,7 @@ export class RolesModalComponent {
   constructor(public bsModalRef: BsModalRef) { }
 
   updateChecked(checkedValue: string) {
+    debugger
     const index = this.selectedRoles.indexOf(checkedValue);
     index !== -1 ? this.selectedRoles.splice(index, 1) : this.selectedRoles.push(checkedValue);
   }

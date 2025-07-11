@@ -1,10 +1,11 @@
-using API.Data;
+﻿using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
 using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,23 +13,35 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.addApplicationServices(builder.Configuration);
-
+builder.Services.AddSwaggerGen(); // ✅ Make sure this line is present
 
 builder.Services.AddIdentityServices(builder.Configuration);
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+});
 var app = builder.Build();
-
 
 app.UseMiddleware<ExeceptionMiddleware>();
 app.UseCors(builder=>builder.AllowAnyHeader().AllowAnyMethod()
 .AllowCredentials()
 .WithOrigins("https://localhost:4200"));
+// ✅ FIX: Enable Swagger in Development mode only
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
+}
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
 // app.UseDefaultFiles();
 // app.UseStaticFiles();
-
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");

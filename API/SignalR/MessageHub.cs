@@ -48,7 +48,7 @@ namespace API.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-             var group=await RemoveFromMessageGroup();
+            var group=await RemoveFromMessageGroup();
              await Clients.Group(group.Name).SendAsync("UpdateGroup");
             await base.OnDisconnectedAsync(exception);
             
@@ -100,8 +100,6 @@ namespace API.SignalR
         {
             var stringCompare=string.CompareOrdinal(caller,other)<0;
             return stringCompare?$"{caller}-{other}":$"{other}-{caller}";
-
-
         }
         private async Task<Group> AddToGroup(string groupName)
         {

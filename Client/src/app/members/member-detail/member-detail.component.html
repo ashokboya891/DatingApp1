@@ -20,7 +20,7 @@
             </div>
             <div class="card-body">
                 <strong>Age:</strong>
-                <p>{{member.age}}</p>
+                <p>{{member.age  | timeago}}</p>
             </div>
             <div class="card-body">
                 <strong>lastActive:</strong>
@@ -55,6 +55,10 @@
              <tab heading="Photos" #photoTab="tab"  (selectTab)="onTabActivated($event)">
                 <!-- <h4>Interests</h4><p>photos will go there</p> -->
                 <gallery *ngIf="photoTab.active" [items]="images" class="gallery"></gallery>
+            </tab>
+               <tab heading="Meeting" #Meeting="tab"  (selectTab)="onTabActivated($event)">
+                <!-- <h4>Interests</h4><p>photos will go there</p> -->
+                <!-- <gallery *ngIf="photoTab.active" [items]="images" class="gallery"></gallery> -->
             </tab>
             <tab heading="Messages" (selectTab)="onTabActivated($event)">
                 <app-member-messages [username]="member.userName" ></app-member-messages>

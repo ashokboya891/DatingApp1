@@ -22,6 +22,7 @@ namespace API.Data
         public DbSet<Group> Groups{get;set;}
         public DbSet<Connection> connections{get;set;}
 
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -63,6 +64,9 @@ namespace API.Data
             .WithMany(u=>u.MessagesSent)
             .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Photo>().HasQueryFilter(p => p.IsApproved);
+
+            //builder.ApplyUtcDateTimeConverter();
 
         }
     }

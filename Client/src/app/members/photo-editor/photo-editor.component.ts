@@ -34,8 +34,7 @@ user:User|undefined
    }
    fileOverBase(e:any)
    {
-    this.hasBaseDropZoneOver=e;
-
+    this.hasBaseDropZoneOver=e
    }
    setMainPhoto(photo:Photo)
    {

@@ -29,7 +29,7 @@
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/bootswatch/dist/united/bootstrap.css",
               "./node_modules/font-awesome/css/font-awesome.min.css",
-              "node_modules/ngx-spinner/animations/fire.css",
+              "node_modules/ngx-spinner/animations/ball-climbing-dot.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],

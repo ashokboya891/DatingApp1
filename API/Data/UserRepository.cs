@@ -14,7 +14,7 @@ namespace API.Data
         private readonly DataContext _Context;
         private readonly IMapper _mapper;
 
-        public UserRepository(DataContext context,IMapper mapper)
+        public UserRepository(DataContext context, IMapper mapper)
         {
             _Context = context;
             _mapper = mapper;
@@ -22,40 +22,40 @@ namespace API.Data
 
         public async Task<MemberDto> GetMemberAsync(String username)
         {
-         return await _Context.Users.Where(x=>x.UserName==username)
-         .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-         .SingleOrDefaultAsync();
+            return await _Context.Users.Where(x => x.UserName == username)
+            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
         }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             var query = _Context.Users.AsQueryable();
-            query=query.Where(u=>u.UserName!= userParams.CurrentUsername);
-            query=query.Where(u=>u.Gender==userParams.Gender);
+            query = query.Where(u => u.UserName != userParams.CurrentUsername);
+            query = query.Where(u => u.Gender == userParams.Gender);
 
-            
 
-            var minDob=DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge-1));
-            var maxDob=DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
-            query=query.Where(u=>u.DateOfBirth>=minDob&& u.DateOfBirth<=maxDob);
-     
-            query=userParams.OrderBy switch
+
+            var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
+            var maxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MinAge));
+            query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
+            query = userParams.OrderBy switch
             {
-                "created"=>query.OrderByDescending(u=>u.Created),
-                _=>query.OrderByDescending(u=>u.LastActive),
+                "created" => query.OrderByDescending(u => u.Created),
+                _ => query.OrderByDescending(u => u.LastActive),
             };
-             
+
 
             return await PagedList<MemberDto>.CreateAsync(
             query.AsNoTracking().ProjectTo<MemberDto>
             (_mapper.ConfigurationProvider),
-            userParams.PageNumber,userParams.PageSize);
-            
+            userParams.PageNumber, userParams.PageSize);
+
         }
 
-        public  async Task<AppUser> GetUserByIdAsync(int id)
+        public async Task<AppUser> GetUserByIdAsync(int id)
         {
-          return await _Context.Users.FindAsync(id);
+            return await _Context.Users.FindAsync(id);
         }
 
         // public async Task<AppUser> GetUserByUserNameAsync(string username)
@@ -67,17 +67,17 @@ namespace API.Data
         {
             return await _Context.Users
             .Include(x => x.Photos)
-            .SingleOrDefaultAsync(x => x.UserName == username);      
+            .SingleOrDefaultAsync(x => x.UserName == username);
         }
-//below new method added in opt2 244
+        //below new method added in opt2 244
         public async Task<string> GetUserGender(string username)
         {
-            return await _Context.Users.Where(x=>x.UserName==username).Select(x=>x.Gender).FirstOrDefaultAsync();
+            return await _Context.Users.Where(x => x.UserName == username).Select(x => x.Gender).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<AppUser>> GetUsersAsync()
         {
-          return await _Context.Users.Include(x=>x.Photos).ToListAsync();
+            return await _Context.Users.Include(x => x.Photos).ToListAsync();
         }
 
         // public async Task<bool> SaveAllAsync()
@@ -87,7 +87,29 @@ namespace API.Data
 
         public void Update(AppUser user)
         {
-            _Context.Entry(user).State = EntityState.Modified;  
+            _Context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<MemberDto> GetMemberAsync(string username, bool
+                                 isCurrentUser)
+        {
+            var query = _Context.Users
+                           .Where(x
+           => x.UserName == username)
+                           .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                           .AsQueryable();
+            if (isCurrentUser) query = query.IgnoreQueryFilters();
+            return await query.FirstOrDefaultAsync();
+        }
+
+        public async Task<AppUser?> GetUserByPhotoId(int photoId)
+        {
+            return await _Context.Users
+                       .Include(p => p.Photos)
+                       .IgnoreQueryFilters()
+                       .Where(p => p.Photos.Any(p => p.Id == photoId))
+                       .FirstOrDefaultAsync();
+
         }
     }
 }
